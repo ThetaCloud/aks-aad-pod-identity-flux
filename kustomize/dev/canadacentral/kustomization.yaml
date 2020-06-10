@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- ../../global
+transformers:
+- regional-labels.yaml
+images:
+  - name: mcr.microsoft.com/k8s/aad-pod-identity/mic
+    newName: mcr.microsoft.com/k8s/aad-pod-identity/mic
+  - name: mcr.microsoft.com/k8s/aad-pod-identity/nmi
+    newName: mcr.microsoft.com/k8s/aad-pod-identity/mic
