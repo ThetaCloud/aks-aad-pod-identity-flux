@@ -1,0 +1,21 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- namespace.yaml
+
+- azureidentities-crd.yaml
+- azureidentitybindings-crd.yaml
+- azureassignedidentities-crd.yaml
+- azurepodidentityexceptions-crd.yaml
+
+- mic-deployment.yaml
+- mic-psp.yaml
+- mic-clusterrolebinding.yaml
+- mic-serviceaccount.yaml
+
+- nmi-serviceaccount-psp.yaml
+- nmi-daemonset.yaml
+- nmi-clusterrolebinding.yaml
+
+transformers:
+- global-labels.yaml

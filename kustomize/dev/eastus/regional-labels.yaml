@@ -1,0 +1,10 @@
+apiVersion: builtin
+kind: LabelTransformer
+metadata:
+  name: regional-labels
+labels:
+  region: eastus
+  env: dev
+fieldSpecs:
+- path: metadata/labels
+  create: true

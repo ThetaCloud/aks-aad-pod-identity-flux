@@ -1,0 +1,46 @@
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: mic-allow-hostpath
+spec:
+  seLinux:
+    rule: RunAsAny
+  volumes:
+    - hostPath
+    - secret
+  fsGroup:
+    rule: RunAsAny
+  runAsUser:
+    rule: RunAsAny
+  supplementalGroups:
+    rule: RunAsAny
+  allowedHostPaths:
+    - pathPrefix: /etc/kubernetes/azure.json
+      readOnly: true
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: psp:mic-allow-hostpath
+rules:
+- apiGroups: ['extensions']
+  resources: ['podsecuritypolicies']
+  verbs:     ['use']
+  resourceNames:
+  - mic-allow-hostpath
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: default:mic-allow-hostpath
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: psp:mic-allow-hostpath
+subjects:
+- kind: Group
+  name: system:nodes
+  apiGroup: rbac.authorization.k8s.io
+- kind: ServiceAccount
+  name: aad-pod-id-mic-service-account
+  namespace: aad-pod-identity
